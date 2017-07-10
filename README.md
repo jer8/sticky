@@ -1,4 +1,4 @@
-Post-it notes app built with React.
+Sticky notes app built with React.
 
 ![alt text](https://render.fineartamerica.com/images/rendered/search/print/images/artworkimages/medium/1/construction-zone-dump-truck-work-in-progress-gifts-yellow-background-life-over-here.jpg)
 
