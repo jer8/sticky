@@ -10,7 +10,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 class App extends Component {
   render() {
     return (
-      <div class="card blue-grey darken-1">
+      <div className="container col">
         <PostItDashboard />
       </div>
     );
@@ -21,9 +21,10 @@ class PostItDashboard extends Component {
   render() {
 
     return (
-      <div>
-        <NoteItemList />
-        <NoteItemList />
+      <div className="row">
+        <NoteItemList listTitle="List 1"/>
+        <NoteItemList listTitle="List 2"/>
+        <NoteItemList listTitle="List 3"/>
       </div>
     );
   }
@@ -32,10 +33,16 @@ class PostItDashboard extends Component {
 class NoteItemList extends Component {
   render(){
     return (
-      <div>
-        <NoteItem title="26zv" comment="in sync with prod"/>
-        <NoteItem title="27zv" comment="sync with prod"/>
+      <div className="card col m6 s12">
+        <div className="card-content">
+          <span className="card-title">{this.props.listTitle}</span>
+          <ul className="collection teal">
+            <NoteItem title="item1Title" comment="item1Comment"/>
+            <NoteItem title="item2Title" comment="item2Comment"/>
+          </ul>
+        </div>
       </div>
+
     );
   }
 }
@@ -44,15 +51,16 @@ class NoteItem extends Component {
   render(){
 
     return (
-      <div>
-        <div>
-          <label>Title</label>
-        <input type='text' defaultValue={this.props.title} />
+      <li className="collection-item">
+        <div className="input-field">
+          <input id='1' type='text' defaultValue={this.props.title}/>
+          <label for='1'>Item Name</label>
         </div>
-        <div>
-          <textarea defaultValue={this.props.comment}></textarea>
+        <div className="input-field">
+          <textarea id="textarea1" defaultValue={this.props.comment} className="materialize-textarea"></textarea>
+          <label for="textarea1">Notes</label>
         </div>
-      </div>
+      </li>
     );
   }
 }
