@@ -62,15 +62,29 @@ class PostItDashboard extends Component {
 
     return (
       <div className="container row">
-        {this.state.postIts.map((postIt) =>
-          <NoteItemList title={postIt.title} notes={postIt.notes}/>
+        <StickyNoteList postIts={this.state.postIts}/>
+      </div>
+    );
+  }
+}
+
+class StickyNoteList extends Component {
+
+  render() {
+
+    return (
+      <div>
+        {
+          this.props.postIts.map((postIt) =>
+            <StickyNote title={postIt.title} notes={postIt.notes}/>
         )}
       </div>
     );
   }
 }
 
-class NoteItemList extends Component {
+class StickyNote extends Component {
+
 
   constructor(props){
     super(props);
@@ -84,24 +98,39 @@ class NoteItemList extends Component {
 
     const {isFormOpen} = this.state;
 
-    const noteItems = isFormOpen
-      ? (this.props.notes.map((note) => <NoteItemForm about={note.about} comment={note.comment}/>))
-      : (this.props.notes.map((note) => <NoteItem about={note.about} comment={note.comment}/>));
-
-    const cardButtons = isFormOpen? <CardActions /> : <CardConfirmations />;
-
     return (
       <div className="col m6 s12">
+          {
+            !isFormOpen
+            ? <Notes title={this.props.title} notes={this.props.notes}/>
+            : <NotesForm title={this.props.title} notes={this.props.notes}/>
+          }
+      </div>
+
+    );
+  }
+}
+
+class Notes extends Component {
+
+  render() {
+
+    const notes = this.props.notes.map((note) =>
+
+      <NoteItem about={note.about} comment={note.comment} />
+
+    );
+
+    return (
         <div className="card">
           <div className="card-content">
             <span className="card-title">{this.props.title}</span>
             <ul className="collection">
-              { noteItems }
+              {notes}
             </ul>
           </div>
-          {cardButtons}
+          <CardActions option1="Update" option2="Delete"/>
         </div>
-      </div>
     );
   }
 }
@@ -109,16 +138,48 @@ class NoteItemList extends Component {
 class NoteItem extends Component {
 
   render() {
+
+    const {about, comment} = this.props;
+
     return (
       <li className="collection-item">
-        <span className="title">{this.props.about}</span>
+        <span className="title">{about}</span>
         <p>
-          {this.props.comment}
+          {comment}
         </p>
       </li>
     );
   }
 }
+
+class NotesForm extends Component {
+
+  render() {
+
+    const notes = this.props.notes.map((note) =>
+      <NoteItemForm about={note.about} comment={note.comment} />
+    );
+
+    return (
+
+        <div className="card">
+          <div className="card-content">
+            <span className="card-title">
+              <div className="input-field">
+                <input id='1' type='text' defaultValue={this.props.title}/>
+                <label for='1'>Title</label>
+              </div>
+            </span>
+            <ul className="collection">
+              {notes}
+            </ul>
+          </div>
+          <CardActions option1="Save" option2="Cancel"/>
+        </div>
+    );
+  }
+}
+
 
 class NoteItemForm extends Component {
 
@@ -145,23 +206,11 @@ class CardActions extends Component {
   render() {
     return (
       <div className="card-action right-align">
-        <a href="#">UPDATE</a>
-        <a href="#">DELETE</a>
+        <a href="#">{this.props.option1}</a>
+        <a href="#">{this.props.option2}</a>
       </div>
     );
   }
 }
-
-class CardConfirmations extends Component {
-  render() {
-    return (
-      <div className="card-action right-align">
-        <a href="#">SAVE</a>
-        <a href="#">CANCEL</a>
-      </div>
-    );
-  }
-}
-
 
 export default PostItDashboard;
