@@ -15,42 +15,52 @@ class PostItDashboard extends Component {
 
      this.state = {
        postIts: [{
+         postItId: '1',
          title:'flystaging7',
           notes: [
             {
+              noteId: '1',
               about: '26zv',
               comment: 'in sync with prod'
             },
             {
+              noteId: '2',
               about: 'DB',
               comment: 'in sync with prod'
             },
           ],
        },
       {
+        postItId: '2',
         title:'flystaging5',
          notes: [
            {
-             about: '40zv/41zv',
-             comment: 'with 17.2 builds'
+              noteId: '3',
+              about: '40zv/41zv',
+              comment: 'with 17.2 builds'
            },
            {
-             about: 'DB',
-             comment: 'with 17.2 changes'
+              noteId: '4',
+              about: 'DB',
+              comment: 'with 17.2 changes'
            },
          ],
 
       },
       {
+        postItId: '3',
         title:'flystaging10',
          notes: [
            {
-             about: 'iis',
-             comment: 'paid seat'
+
+              noteId: '5',
+              about: 'iis',
+              comment: 'paid seat'
            },
            {
-             about: 'DB',
-             comment: 'with paid seat changes'
+              noteId: '6',
+              about: 'DB',
+              comment: 'with paid seat changes'
            },
          ],
 
@@ -76,7 +86,7 @@ class StickyNoteList extends Component {
       <div>
         {
           this.props.postIts.map((postIt) =>
-            <StickyNote title={postIt.title} notes={postIt.notes}/>
+            <StickyNote title={postIt.title} notes={postIt.notes} key={postIt.postItId}/>
         )}
       </div>
     );
@@ -92,6 +102,23 @@ class StickyNote extends Component {
     this.state = {
       isFormOpen: false
     };
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  handleUpdate = () => {
+
+    this.setState({
+      isFormOpen: true,
+    });
+
+  }
+
+  handleCancel = () => {
+    this.setState({
+      isFormOpen: false,
+    });
   }
 
   render() {
@@ -102,8 +129,8 @@ class StickyNote extends Component {
       <div className="col m6 s12">
           {
             !isFormOpen
-            ? <Notes title={this.props.title} notes={this.props.notes}/>
-            : <NotesForm title={this.props.title} notes={this.props.notes}/>
+            ? <Notes title={this.props.title} notes={this.props.notes} option1onClick={this.handleUpdate}/>
+            : <NotesForm title={this.props.title} notes={this.props.notes} option2onClick={this.handleCancel}/>
           }
       </div>
 
@@ -117,7 +144,7 @@ class Notes extends Component {
 
     const notes = this.props.notes.map((note) =>
 
-      <NoteItem about={note.about} comment={note.comment} />
+      <NoteItem about={note.about} comment={note.comment} key={note.noteId}/>
 
     );
 
@@ -129,7 +156,7 @@ class Notes extends Component {
               {notes}
             </ul>
           </div>
-          <CardActions option1="Update" option2="Delete"/>
+          <CardActions option1="Update" option2="Delete" option1onClick={this.props.option1onClick} option2onClick={this.props.option2onClick}/>
         </div>
     );
   }
@@ -154,10 +181,26 @@ class NoteItem extends Component {
 
 class NotesForm extends Component {
 
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+      title: this.props.title,
+    }
+
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+  }
+
+  handleTitleChange(event) {
+    this.setState({title: event.target.value});
+  }
+
+
   render() {
 
     const notes = this.props.notes.map((note) =>
-      <NoteItemForm about={note.about} comment={note.comment} />
+      <NoteItemForm about={note.about} comment={note.comment} key={note.noteId}/>
     );
 
     return (
@@ -166,15 +209,15 @@ class NotesForm extends Component {
           <div className="card-content">
             <span className="card-title">
               <div className="input-field">
-                <input id='1' type='text' defaultValue={this.props.title}/>
-                <label for='1'>Title</label>
+                <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
+                <label htmlFor="note_title" className="active">Title</label>
               </div>
             </span>
             <ul className="collection">
               {notes}
             </ul>
           </div>
-          <CardActions option1="Save" option2="Cancel"/>
+          <CardActions option1="Save" option2="Cancel" option1onClick={this.props.option1onClick} option2onClick={this.props.option2onClick}/>
         </div>
     );
   }
@@ -183,19 +226,39 @@ class NotesForm extends Component {
 
 class NoteItemForm extends Component {
 
-  render() {
+  constructor(props) {
 
-    const {about, comment} = this.props;
+    super(props);
+
+    this.state = {
+      about: this.props.about,
+      comment: this.props.comment,
+    }
+
+    this.handleAboutChange = this.handleAboutChange.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
+
+  }
+
+  handleAboutChange(event) {
+    this.setState({about: event.target.value});
+  }
+
+  handleCommentChange(event) {
+    this.setState({comment: event.target.value});
+  }
+
+  render() {
 
     return (
       <li className="collection-item">
         <div className="input-field">
-          <input id='1' type='text' defaultValue={about}/>
-          <label for='1'>Title</label>
+          <input id='1' type='text' value={this.state.about} onChange={this.handleAboutChange}/>
+          <label htmlFor='1' className="active">Title</label>
         </div>
         <div className="input-field">
-          <textarea id="textarea1" defaultValue={comment} className="materialize-textarea"></textarea>
-          <label for="textarea1">Notes</label>
+          <textarea id="textarea1" defaultValue={this.state.comment} className="materialize-textarea" onChange={this.handleAboutChange}></textarea>
+          <label htmlFor="textarea1" className="active">Notes</label>
         </div>
       </li>
     );
@@ -206,8 +269,8 @@ class CardActions extends Component {
   render() {
     return (
       <div className="card-action right-align">
-        <a href="#">{this.props.option1}</a>
-        <a href="#">{this.props.option2}</a>
+        <a href="#" onClick={this.props.option1onClick}>{this.props.option1}</a>
+        <a href="#" onClick={this.props.option2onClick}>{this.props.option2}</a>
       </div>
     );
   }
