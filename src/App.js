@@ -29,7 +29,6 @@ class StickyDashboard extends Component {
   }
 
   render() {
-
     return (
       <div className="container row">
         <div>
@@ -44,7 +43,6 @@ class StickyDashboard extends Component {
 }
 
 class Sticky extends Component {
-
 
   constructor(props){
     super(props);
@@ -62,7 +60,6 @@ class Sticky extends Component {
     this.setState({
       isFormOpen: true,
     });
-
   }
 
   handleCancel = () => {
@@ -76,16 +73,17 @@ class Sticky extends Component {
     const {isFormOpen} = this.state;
     let note, cardActions;
 
-
   if (isFormOpen) {
 
     note = <StickyForm title={this.props.title} notes={this.props.notes} />;
     cardActions = <CardActions option1="Save" option2="Cancel" option1onClick={this.handleCancel} option2onClick={this.handleCancel} />;
 
   } else {
+
     note = <StickyNote title={this.props.title} notes={this.props.notes}/>;
     cardActions = <CardActions option1="Update" option2="Delete" option1onClick={this.handleUpdate} option2onClick={this.handleUpdate} />;
   }
+
 
     return (
       <div className="col m6 s12">
@@ -94,7 +92,6 @@ class Sticky extends Component {
           {cardActions}
         </div>
       </div>
-
     );
   }
 }
@@ -110,7 +107,6 @@ class StickyNote extends Component {
     );
   }
 }
-
 
 class StickyForm extends Component {
 
@@ -138,24 +134,21 @@ class StickyForm extends Component {
   render() {
 
     return (
-        <div className="card-content">
-          <span className="card-title">
-            <div className="input-field">
-              <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
-              <label htmlFor="note_title" className="active">Title</label>
-            </div>
-
-          </span>
-
+      <div className="card-content">
+        <span className="card-title">
           <div className="input-field">
-            <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea" onChange={this.handleNotesChange}></textarea>
-            <label htmlFor="textarea1" className="active">Notes</label>
+            <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
+            <label htmlFor="note_title" className="active">Title</label>
           </div>
+        </span>
+        <div className="input-field">
+          <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea" onChange={this.handleNotesChange}></textarea>
+          <label htmlFor="textarea1" className="active">Notes</label>
         </div>
+      </div>
     );
   }
 }
-
 
 class CardActions extends Component {
   render() {
