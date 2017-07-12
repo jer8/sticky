@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
-import './App.css';
 
-//https://github.com/facebookincubator/create-react-app/issues/679
-//https://stackoverflow.com/questions/41657849/cannot-import-materialize-css-in-react-project-to-use-chips
-import $ from 'jquery/src/jquery';
-import 'materialize-css';
-import 'materialize-css/dist/css/materialize.min.css';
-import 'masonry-layout';
+
+import './App.css';
 
 class StickyDashboard extends Component {
 
@@ -23,6 +18,10 @@ class StickyDashboard extends Component {
           id: '2',
           title: 'flystaging5',
           notes: 'with 17.2 changes'
+        }, {
+          id: '3',
+          title: 'flystaging11',
+          notes: 'with 17.2 changes'
         }
       ]
     };
@@ -30,7 +29,7 @@ class StickyDashboard extends Component {
 
   render() {
     return (
-      <div className="container row">
+      <div className="row">
         <div>
           {
             this.state.stickies.map((sticky) =>
@@ -53,6 +52,8 @@ class Sticky extends Component {
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleUpdate = () => {
@@ -68,6 +69,14 @@ class Sticky extends Component {
     });
   }
 
+  handleSave = (attrs) => {
+    //TODO
+  }
+
+  handleDelete = (id) => {
+    //TODO
+  }
+
   render() {
 
     const {isFormOpen} = this.state;
@@ -76,12 +85,12 @@ class Sticky extends Component {
   if (isFormOpen) {
 
     note = <StickyForm title={this.props.title} notes={this.props.notes} />;
-    cardActions = <CardActions option1="Save" option2="Cancel" option1onClick={this.handleCancel} option2onClick={this.handleCancel} />;
+    cardActions = <CardActions option1="Save" option2="Cancel" option1onClick={this.handleSave} option2onClick={this.handleCancel} />;
 
   } else {
 
     note = <StickyNote title={this.props.title} notes={this.props.notes}/>;
-    cardActions = <CardActions option1="Update" option2="Delete" option1onClick={this.handleUpdate} option2onClick={this.handleUpdate} />;
+    cardActions = <CardActions option1="Update" option2="Delete" option1onClick={this.handleUpdate} option2onClick={this.handleDele} />;
   }
 
 
