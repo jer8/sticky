@@ -186,7 +186,7 @@ class NotesForm extends Component {
     super(props);
 
     this.state = {
-      title: this.props.title,
+      title: this.props.title || '',
     }
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -196,7 +196,6 @@ class NotesForm extends Component {
     this.setState({title: event.target.value});
   }
 
-
   render() {
 
     const notes = this.props.notes.map((note) =>
@@ -204,21 +203,20 @@ class NotesForm extends Component {
     );
 
     return (
-
-        <div className="card">
-          <div className="card-content">
-            <span className="card-title">
-              <div className="input-field">
-                <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
-                <label htmlFor="note_title" className="active">Title</label>
-              </div>
-            </span>
-            <ul className="collection">
-              {notes}
-            </ul>
-          </div>
-          <CardActions option1="Save" option2="Cancel" option1onClick={this.props.option1onClick} option2onClick={this.props.option2onClick}/>
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">
+            <div className="input-field">
+              <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
+              <label htmlFor="note_title" className="active">Title</label>
+            </div>
+          </span>
+          <ul className="collection">
+            {notes}
+          </ul>
         </div>
+        <CardActions option1="Save" option2="Cancel" option1onClick={this.props.option1onClick} option2onClick={this.props.option2onClick}/>
+      </div>
     );
   }
 }
@@ -231,8 +229,8 @@ class NoteItemForm extends Component {
     super(props);
 
     this.state = {
-      about: this.props.about,
-      comment: this.props.comment,
+      about: this.props.about || '',
+      comment: this.props.comment || '',
     }
 
     this.handleAboutChange = this.handleAboutChange.bind(this);
@@ -257,7 +255,7 @@ class NoteItemForm extends Component {
           <label htmlFor='1' className="active">Title</label>
         </div>
         <div className="input-field">
-          <textarea id="textarea1" defaultValue={this.state.comment} className="materialize-textarea" onChange={this.handleAboutChange}></textarea>
+          <textarea id="textarea1" defaultValue={this.state.comment} className="materialize-textarea" onChange={this.handleCommentChange}></textarea>
           <label htmlFor="textarea1" className="active">Notes</label>
         </div>
       </li>
