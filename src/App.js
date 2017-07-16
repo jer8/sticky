@@ -84,22 +84,16 @@ class Sticky extends Component {
 
   if (isFormOpen) {
 
-    note = <StickyForm title={this.props.title} notes={this.props.notes} />;
-    cardActions = <CardActions option1="Save" option2="Cancel" option1onClick={this.handleSave} option2onClick={this.handleCancel} />;
+    note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.handleSave} onCancel={this.handleCancel} />;
 
   } else {
 
-    note = <StickyNote title={this.props.title} notes={this.props.notes}/>;
-    cardActions = <CardActions option1="Update" option2="Delete" option1onClick={this.handleUpdate} option2onClick={this.handleDele} />;
+    note = <StickyNote title={this.props.title} notes={this.props.notes} onUpdate={this.handleUpdate} onDelete={this.handleDele}/>;
   }
 
-
     return (
-      <div className="col m6 s12">
-        <div className="card">
-          {note}
-          {cardActions}
-        </div>
+      <div className="col m8 offset-m2 s12">
+        {note}
       </div>
     );
   }
@@ -109,9 +103,15 @@ class StickyNote extends Component {
 
   render() {
     return (
-      <div className="card-content">
-        <span className="card-title">{this.props.title}</span>
-        <span>{this.props.notes}</span>
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">{this.props.title}</span>
+          <span>{this.props.notes}</span>
+        </div>
+        <div className="card-action right-align">
+          <a href="#" onClick={this.props.onUpdate}>Update</a>
+          <a href="#" onClick={this.props.onDelete}>Delete</a>
+        </div>
       </div>
     );
   }
@@ -143,31 +143,27 @@ class StickyForm extends Component {
   render() {
 
     return (
-      <div className="card-content">
-        <span className="card-title">
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">
+            <div className="input-field">
+              <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
+              <label htmlFor="note_title" className="active">Title</label>
+            </div>
+          </span>
           <div className="input-field">
-            <input placeholder="Note Title" id="note_title" type="text" value={this.state.title} onChange={this.handleTitleChange}/>
-            <label htmlFor="note_title" className="active">Title</label>
+            <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea" onChange={this.handleNotesChange}></textarea>
+            <label htmlFor="textarea1" className="active">Notes</label>
           </div>
-        </span>
-        <div className="input-field">
-          <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea" onChange={this.handleNotesChange}></textarea>
-          <label htmlFor="textarea1" className="active">Notes</label>
+        </div>
+        <div className="card-action right-align">
+          <a href="#" onClick={this.props.onSave}>Save</a>
+          <a href="#" onClick={this.props.onCancel}>Cancel</a>
         </div>
       </div>
     );
   }
 }
 
-class CardActions extends Component {
-  render() {
-    return (
-      <div className="card-action right-align">
-        <a href="#" onClick={this.props.option1onClick}>{this.props.option1}</a>
-        <a href="#" onClick={this.props.option2onClick}>{this.props.option2}</a>
-      </div>
-    );
-  }
-}
 
 export default StickyDashboard;
