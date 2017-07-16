@@ -25,6 +25,34 @@ class StickyDashboard extends Component {
         }
       ]
     };
+
+    this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+
+  handleSave = (attrs) => {
+     this.updateNote(attrs);
+  }
+
+  updateNote = (attrs) => {
+
+    this.setState({
+      stickies: this.state.stickies.map(sticky => {
+        if(sticky.id === attrs.id){
+          return Object.assign({}, sticky, {
+            title: attrs.title,
+            notes: attrs.notes,
+          });
+        } else {
+          return sticky;
+        }
+      }),
+    });
+  }
+
+  handleDelete = (id) => {
+    //TODO
   }
 
   render() {
@@ -33,7 +61,7 @@ class StickyDashboard extends Component {
         <div>
           {
             this.state.stickies.map((sticky) =>
-              <Sticky title={sticky.title} notes={sticky.notes} key={sticky.id}/>
+              <Sticky title={sticky.title} notes={sticky.notes} id={sticky.id} key={sticky.id} onSave={this.handleSave} onDelete={this.handleDelete}/>
           )}
         </div>
       </div>
@@ -51,9 +79,7 @@ class Sticky extends Component {
     };
 
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    this.handleCloseForm = this.handleCloseForm.bind(this);
   }
 
   handleUpdate = () => {
@@ -63,19 +89,12 @@ class Sticky extends Component {
     });
   }
 
-  handleCancel = () => {
+  handleCloseForm = () => {
     this.setState({
       isFormOpen: false,
     });
   }
 
-  handleSave = (attrs) => {
-    //TODO
-  }
-
-  handleDelete = (id) => {
-    //TODO
-  }
 
   render() {
 
@@ -84,11 +103,11 @@ class Sticky extends Component {
 
   if (isFormOpen) {
 
-    note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.handleSave} onCancel={this.handleCancel} />;
+    note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.props.onSave} id={this.props.id} onClose={this.handleCloseForm} />;
 
   } else {
 
-    note = <StickyNote title={this.props.title} notes={this.props.notes} onUpdate={this.handleUpdate} onDelete={this.handleDele}/>;
+    note = <StickyNote title={this.props.title} notes={this.props.notes} onUpdate={this.handleUpdate} onDelete={this.props.onDelete}/>;
   }
 
     return (
@@ -130,6 +149,7 @@ class StickyForm extends Component {
 
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
+    this.handleSaveClick = this.handleSaveClick.bind(this);
   }
 
   handleTitleChange(event) {
@@ -138,6 +158,17 @@ class StickyForm extends Component {
 
   handleNotesChange(event) {
     this.setState({notes: event.target.value});
+  }
+
+  handleSaveClick(){
+
+    this.props.onSave({
+      id: this.props.id,
+      title: this.state.title,
+      notes: this.state.notes,
+    });
+
+    this.props.onClose();
   }
 
   render() {
@@ -157,8 +188,8 @@ class StickyForm extends Component {
           </div>
         </div>
         <div className="card-action right-align">
-          <a href="#" onClick={this.props.onSave}>Save</a>
-          <a href="#" onClick={this.props.onCancel}>Cancel</a>
+          <a href="#" onClick={this.handleSaveClick}>Save</a>
+          <a href="#" onClick={this.props.onClose}>Cancel</a>
         </div>
       </div>
     );
