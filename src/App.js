@@ -52,7 +52,12 @@ class StickyDashboard extends Component {
   }
 
   handleDelete = (id) => {
-    //TODO
+
+    this.setState({
+      stickies: this.state.stickies.filter(sticky => {
+        return sticky.id !== id;
+      })
+    });
   }
 
   render() {
@@ -95,19 +100,15 @@ class Sticky extends Component {
     });
   }
 
-
   render() {
 
     const {isFormOpen} = this.state;
     let note, cardActions;
 
   if (isFormOpen) {
-
     note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.props.onSave} id={this.props.id} onClose={this.handleCloseForm} />;
-
   } else {
-
-    note = <StickyNote title={this.props.title} notes={this.props.notes} onUpdate={this.handleUpdate} onDelete={this.props.onDelete}/>;
+    note = <StickyNote title={this.props.title} notes={this.props.notes} id={this.props.id} onUpdate={this.handleUpdate} onDelete={this.props.onDelete}/>;
   }
 
     return (
@@ -120,6 +121,18 @@ class Sticky extends Component {
 
 class StickyNote extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+
+  }
+
+  handleDeleteClick = () => {
+    this.props.onDelete(this.props.id);
+  }
+
+
   render() {
     return (
       <div className="card">
@@ -129,7 +142,7 @@ class StickyNote extends Component {
         </div>
         <div className="card-action right-align">
           <a href="#" onClick={this.props.onUpdate}>Update</a>
-          <a href="#" onClick={this.props.onDelete}>Delete</a>
+          <a href="#" onClick={this.handleDeleteClick}>Delete</a>
         </div>
       </div>
     );
@@ -160,7 +173,7 @@ class StickyForm extends Component {
     this.setState({notes: event.target.value});
   }
 
-  handleSaveClick(){
+  handleSaveClick = () => {
 
     this.props.onSave({
       id: this.props.id,
