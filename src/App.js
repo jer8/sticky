@@ -153,7 +153,7 @@ class StickyNote extends Component {
 
   render() {
     return (
-      <div className="card">
+      <div className="card z-depth-3">
         <div className="card-image">
           <img src="images/card-image.png"></img>
           <span className="card-title">{this.props.title}</span>
@@ -223,7 +223,7 @@ class StickyForm extends Component {
   render() {
 
     return (
-      <div className="card">
+      <div className="card z-depth-5">
         <div className="card-content">
           <span className="card-title">
             <div className="input-field">
@@ -283,7 +283,7 @@ class ToggleableStickyForm extends Component {
       );
     } else {
       return (
-        <a className="btn-floating btn-large waves-effect waves-light light-blue lighten-1" onClick={this.handleOpenForm}>
+        <a className="btn-floating btn-large waves-effect waves-light light-blue lighten-1 pulse" onClick={this.handleOpenForm}>
           <i className="material-icons">add</i>
         </a>
       );
