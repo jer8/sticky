@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import $ from 'jquery/src/jquery';
 
 import './App.css';
 
@@ -88,10 +88,11 @@ class Sticky extends Component {
   }
 
   handleUpdate = () => {
-
+    
     this.setState({
       isFormOpen: true,
     });
+
   }
 
   handleCloseForm = () => {
@@ -103,7 +104,7 @@ class Sticky extends Component {
   render() {
 
     const {isFormOpen} = this.state;
-    let note, cardActions;
+    let note;
 
   if (isFormOpen) {
     note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.props.onSave} id={this.props.id} onClose={this.handleCloseForm} />;
@@ -144,9 +145,9 @@ class StickyNote extends Component {
           {/* https://stackoverflow.com/questions/36260013/react-display-line-breaks-from-saved-textarea */}
           <p> {this.props.notes
                 .split("\n")
-                .map(function(item) {
+                .map(function(item, index) {
                   return (
-                    <span>{item}<br/></span>
+                    <span key={item + index}>{item}<br/></span>
                   )
                 })
               }
@@ -196,6 +197,12 @@ class StickyForm extends Component {
     this.props.onClose();
   }
 
+  //TODO: materialize-textarea is not autoresizing yet
+  componentDidMount() {
+
+    $('#notes-textarea').trigger('autoresize');
+  }
+
   render() {
 
     return (
@@ -208,8 +215,8 @@ class StickyForm extends Component {
             </div>
           </span>
           <div className="input-field">
-            <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea sticky-textarea" onChange={this.handleNotesChange}></textarea>
-            <label htmlFor="textarea1" className="active">Notes</label>
+            <textarea id="notes-textarea" defaultValue={this.state.notes} className="materialize-textarea sticky-textarea" onChange={this.handleNotesChange}></textarea>
+            <label htmlFor="notes-textarea" className="active">Notes</label>
           </div>
         </div>
         <div className="card-action right-align">
