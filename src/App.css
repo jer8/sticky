@@ -7,3 +7,7 @@ body {
 .sticky-textarea {
   white-space: pre-wrap;
 }
+
+a:hover {
+  cursor: pointer;
+}

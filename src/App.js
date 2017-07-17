@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import $ from 'jquery/src/jquery';
-
 import './App.css';
 
 class StickyDashboard extends Component {
@@ -147,7 +146,7 @@ class StickyNote extends Component {
     return (
       <div className="card z-depth-3">
         <div className="card-image">
-          <img src="images/card-image.png"></img>
+          <img src="images/card-image.png" alt="Add New Note Icon"></img>
           <span className="card-title">{this.props.title}</span>
         </div>
         <div className="card-content">
@@ -163,8 +162,8 @@ class StickyNote extends Component {
           </p>
         </div>
         <div className="card-action right-align">
-          <a href="#" onClick={this.props.onUpdate}>Update</a>
-          <a href="#" onClick={this.handleDeleteClick}>Delete</a>
+          <a role="button" onClick={this.props.onUpdate}>Update</a>
+          <a role="button" onClick={this.handleDeleteClick}>Delete</a>
         </div>
       </div>
     );
@@ -229,8 +228,8 @@ class StickyForm extends Component {
           </div>
         </div>
         <div className="card-action right-align">
-          <a href="#" onClick={this.handleSaveClick}>Save</a>
-          <a href="#" onClick={this.props.onClose}>Cancel</a>
+          <a role="button" onClick={this.handleSaveClick}>Save</a>
+          <a role="button" onClick={this.props.onClose}>Cancel</a>
         </div>
       </div>
     );
