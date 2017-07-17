@@ -26,12 +26,11 @@ class StickyDashboard extends Component {
       ]
     };
 
-    this.handleSave = this.handleSave.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-
-  handleSave = (attrs) => {
+  handleUpdate = (attrs) => {
      this.updateNote(attrs);
   }
 
@@ -51,6 +50,23 @@ class StickyDashboard extends Component {
     });
   }
 
+  handleCreate = (newNote) => {
+    this.createNewNote(newNote);
+  }
+
+  createNewNote = (newNote) => {
+    newNote = {
+      id: Date.now(),
+      title: newNote.title,
+      notes: newNote.notes,
+    }
+
+    this.setState({
+      stickies: this.state.stickies.concat(newNote)
+    })
+
+  }
+
   handleDelete = (id) => {
 
     this.setState({
@@ -62,12 +78,15 @@ class StickyDashboard extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div>
+      <div>
+        <div className="row">
           {
             this.state.stickies.map((sticky) =>
-              <Sticky title={sticky.title} notes={sticky.notes} id={sticky.id} key={sticky.id} onSave={this.handleSave} onDelete={this.handleDelete}/>
+              <Sticky title={sticky.title} notes={sticky.notes} id={sticky.id} key={sticky.id} onSave={this.handleUpdate} onDelete={this.handleDelete}/>
           )}
+        </div>
+        <div className="row center-align">
+          <ToggleableStickyForm onSave={this.handleCreate}/>
         </div>
       </div>
     );
@@ -88,7 +107,6 @@ class Sticky extends Component {
   }
 
   handleUpdate = () => {
-    
     this.setState({
       isFormOpen: true,
     });
@@ -132,7 +150,6 @@ class StickyNote extends Component {
   handleDeleteClick = () => {
     this.props.onDelete(this.props.id);
   }
-
 
   render() {
     return (
@@ -197,7 +214,7 @@ class StickyForm extends Component {
     this.props.onClose();
   }
 
-  //TODO: materialize-textarea is not autoresizing yet
+  //TODO: materialize-textarea still not autoresizing yet
   componentDidMount() {
 
     $('#notes-textarea').trigger('autoresize');
@@ -225,6 +242,52 @@ class StickyForm extends Component {
         </div>
       </div>
     );
+  }
+}
+
+class ToggleableStickyForm extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isFormOpen: false,
+    }
+  }
+
+  handleCloseForm = () => {
+    this.setState({
+      isFormOpen: false,
+    });
+  }
+
+  handleOpenForm = () => {
+    this.setState({
+      isFormOpen: true,
+    });
+  }
+
+  handleSaveClick = (newNote) => {
+
+    this.props.onSave(newNote);
+    this.handleCloseForm();
+  }
+
+  render() {
+
+    if(this.state.isFormOpen) {
+      return (
+        <div className="col m8 offset-m2 s12">
+          <StickyForm onSave={this.handleSaveClick} onClose={this.handleCloseForm} />
+        </div>
+      );
+    } else {
+      return (
+        <a className="btn-floating btn-large waves-effect waves-light light-blue lighten-1" onClick={this.handleOpenForm}>
+          <i className="material-icons">add</i>
+        </a>
+      );
+    }
   }
 }
 
