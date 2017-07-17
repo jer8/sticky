@@ -12,17 +12,9 @@ class StickyDashboard extends Component {
       stickies: [
         {
           id: '1',
-          title: 'flystaging7',
-          notes: 'in sync with prod'
-        }, {
-          id: '2',
-          title: 'flystaging5',
-          notes: 'with 17.2 changes'
-        }, {
-          id: '3',
-          title: 'flystaging11',
-          notes: 'with 17.2 changes'
-        }
+          title: 'Note Sample',
+          notes: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed erat rhoncus dolor laoreet efficitur. Aenean laoreet justo libero, nec rhoncus sapien scelerisque ut. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ipsum felis, feugiat rhoncus lacinia ac, dapibus ut mi. Fusce et laoreet neque'
+        },
       ]
     };
 
