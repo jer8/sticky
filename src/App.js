@@ -136,9 +136,21 @@ class StickyNote extends Component {
   render() {
     return (
       <div className="card">
-        <div className="card-content">
+        <div className="card-image">
+          <img src="images/card-image.png"></img>
           <span className="card-title">{this.props.title}</span>
-          <span>{this.props.notes}</span>
+        </div>
+        <div className="card-content">
+          {/* https://stackoverflow.com/questions/36260013/react-display-line-breaks-from-saved-textarea */}
+          <p> {this.props.notes
+                .split("\n")
+                .map(function(item) {
+                  return (
+                    <span>{item}<br/></span>
+                  )
+                })
+              }
+          </p>
         </div>
         <div className="card-action right-align">
           <a href="#" onClick={this.props.onUpdate}>Update</a>
@@ -196,7 +208,7 @@ class StickyForm extends Component {
             </div>
           </span>
           <div className="input-field">
-            <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea" onChange={this.handleNotesChange}></textarea>
+            <textarea id="textarea1" defaultValue={this.state.notes} className="materialize-textarea sticky-textarea" onChange={this.handleNotesChange}></textarea>
             <label htmlFor="textarea1" className="active">Notes</label>
           </div>
         </div>
@@ -208,6 +220,5 @@ class StickyForm extends Component {
     );
   }
 }
-
 
 export default StickyDashboard;
