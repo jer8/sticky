@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react';
 import $ from 'jquery/src/jquery';
-import './App.css';
-import ToggleableStickyForm from './components/ToggleableStickyForm';
-import Sticky from './components/Sticky';
+import './App/App.css';
+import ToggleableStickyForm from './ToggleableStickyForm';
+import Sticky from './Sticky';
 
 class StickyDashboard extends Component {
 
