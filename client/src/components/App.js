@@ -1,6 +1,5 @@
-'use strict';
-
 import React, {Component} from 'react';
+// eslint-disable-next-line
 import $ from 'jquery/src/jquery';
 import './App/App.css';
 import ToggleableStickyForm from './ToggleableStickyForm';
@@ -12,17 +11,17 @@ class StickyDashboard extends Component {
     super(props);
 
     this.state = {
-      stickies: [
-        {
-          id: '1',
-          title: 'Note Sample',
-          notes: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed erat rhoncus dolor laoreet efficitur. Aenean laoreet justo libero, nec rhoncus sapien scelerisque ut. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas ipsum felis, feugiat rhoncus lacinia ac, dapibus ut mi. Fusce et laoreet neque'
-        },
-      ]
+      stickies: []
     };
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/stickies')
+      .then(res => res.json())
+      .then(stickies => this.setState({stickies}));
   }
 
   handleUpdate = (attrs) => {

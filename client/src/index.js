@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 //https://github.com/facebookincubator/create-react-app/issues/679

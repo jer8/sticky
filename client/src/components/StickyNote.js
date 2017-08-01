@@ -1,6 +1,5 @@
-'use strict';
-
 import React, {Component} from 'react';
+// eslint-disable-next-line
 import $ from 'jquery/src/jquery';
 
 class StickyNote extends Component {
