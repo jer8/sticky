@@ -1,4 +1,4 @@
-- [ ] Client-Server interaction
+- [x] Client-Server interaction
 - [ ] PropTypes
 - [ ] Tests
 - [ ] UI Sugar

@@ -4,6 +4,7 @@ import $ from 'jquery/src/jquery';
 import './App/App.css';
 import ToggleableStickyForm from './ToggleableStickyForm';
 import Sticky from './Sticky';
+import StickyService from '../helpers/StickyService';
 
 class StickyDashboard extends Component {
 
@@ -16,19 +17,24 @@ class StickyDashboard extends Component {
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.fetchStickiesFromServer = this.fetchStickiesFromServer.bind(this);
   }
 
   componentDidMount() {
-    fetch('/stickies')
-      .then(res => res.json())
-      .then(stickies => this.setState({stickies}));
+
+    this.fetchStickiesFromServer();
+    setInterval(this.fetchStickiesFromServer, 5000);
+  }
+
+  fetchStickiesFromServer = () => {
+  StickyService.fetchStickies((stickies) => this.setState({stickies}));
   }
 
   handleUpdate = (attrs) => {
-     this.updateNote(attrs);
+     this.updateSticky(attrs);
   }
 
-  updateNote = (attrs) => {
+  updateSticky = (attrs) => {
 
     this.setState({
       stickies: this.state.stickies.map(sticky => {
@@ -42,22 +48,28 @@ class StickyDashboard extends Component {
         }
       }),
     });
+
+    // update sticky in backend
+    StickyService.updateSticky(attrs);
   }
 
-  handleCreate = (newNote) => {
-    this.createNewNote(newNote);
+  handleCreate = (sticky) => {
+    this.createSticky(sticky);
   }
 
-  createNewNote = (newNote) => {
-    newNote = {
+  createSticky = (sticky) => {
+    sticky = {
       id: Date.now(),
-      title: newNote.title,
-      notes: newNote.notes,
+      title: sticky.title,
+      notes: sticky.notes,
     }
 
     this.setState({
-      stickies: this.state.stickies.concat(newNote)
+      stickies: this.state.stickies.concat(sticky)
     })
+
+    // save new sticky in backend
+    StickyService.createSticky(sticky);
 
   }
 
@@ -68,6 +80,9 @@ class StickyDashboard extends Component {
         return sticky.id !== id;
       })
     });
+
+    // delete sticky in backend
+    StickyService.deleteSticky({id});
   }
 
   render() {
