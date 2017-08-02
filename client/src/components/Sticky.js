@@ -1,10 +1,21 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import $ from 'jquery/src/jquery';
 import StickyForm from './StickyForm';
 import StickyNote from './StickyNote';
 
 class Sticky extends Component {
+
+  static propTypes = {
+    title: PropTypes.string,
+    notes: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.onDelete,
+
+  }
 
   constructor(props){
     super(props);
@@ -36,7 +47,7 @@ class Sticky extends Component {
     let note;
 
   if (isFormOpen) {
-    note = <StickyForm title={this.props.title} notes={this.props.notes} onSave={this.props.onSave} id={this.props.id} onClose={this.handleCloseForm} />;
+    note = <StickyForm title={this.props.title} notes={this.props.notes} id={this.props.id} onSave={this.props.onSave}  onClose={this.handleCloseForm} />;
   } else {
     note = <StickyNote title={this.props.title} notes={this.props.notes} id={this.props.id} onUpdate={this.handleUpdate} onDelete={this.props.onDelete}/>;
   }

@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import $ from 'jquery/src/jquery';
 import StickyForm from './StickyForm';
 
 class ToggleableStickyForm extends Component {
+
+  static propTypes = {
+    onSave: PropTypes.func.isRequired,
+  }
 
   constructor(props){
     super(props);

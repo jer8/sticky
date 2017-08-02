@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 // eslint-disable-next-line
 import $ from 'jquery/src/jquery';
 
 class StickyNote extends Component {
+
+  static propTypes = {
+    title: PropTypes.string,
+    notes: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
+  }
 
   constructor(props) {
     super(props);
